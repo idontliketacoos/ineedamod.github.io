@@ -2,61 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Vens Securly Hub V5.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vens Securly Hub V6.0 | SOUL</title>
     <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVU...">
     <style>
         :root { --neon: #bc13fe; --cyan: #00ffff; --bg: #0a0a0a; --panic: #ff4444; }
-        body { background-color: var(--bg); color: var(--neon); font-family: 'Courier New', monospace; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        body {
+            background-color: var(--bg); color: var(--neon); font-family: 'Courier New', monospace;
+            margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center;
+        }
         header { text-align: center; padding: 20px; border-bottom: 2px solid var(--neon); width: 85%; margin-bottom: 20px; }
         .gatekeep-note { color: var(--cyan); font-size: 11px; margin-bottom: 10px; font-style: italic; opacity: 0.8; }
-        .panic-bar { color: var(--panic); font-size: 12px; margin-bottom: 20px; border: 1px solid var(--panic); padding: 8px; width: 85%; text-align: center; cursor: pointer; }
-        .hub-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; width: 95%; max-width: 1200px; }
-        .button { position: relative; height: 90px; border: 1px solid var(--neon); background: rgba(188, 19, 254, 0.05); transition: 0.3s; }
-        .button:hover { background: var(--neon); color: #000; box-shadow: 0 0 20px var(--neon); }
-        .button-text { text-decoration: none; color: inherit; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; }
-        .desc { font-size: 10px; margin-top: 5px; opacity: 0.7; font-weight: normal; text-align: center; padding: 0 5px; }
-        .section-title { width: 85%; margin: 30px 0 10px; border-left: 5px solid var(--cyan); padding-left: 10px; font-size: 20px; color: var(--cyan); }
-        .page-nav { margin-top: 40px; padding: 15px 50px; border: 2px dashed var(--cyan); color: var(--cyan); text-decoration: none; font-weight: bold; transition: 0.4s; }
+        .panic-bar { color: var(--panic); font-size: 12px; margin-bottom: 20px; border: 1px solid var(--panic); padding: 8px; width: 85%; text-align: center; cursor: pointer; transition: 0.3s; }
+        .panic-bar:hover { background: rgba(255, 68, 68, 0.2); }
+        
+        .hub-container { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
+            gap: 15px; width: 95%; max-width: 1200px; 
+        }
+        .button { 
+            position: relative; height: 95px; border: 1px solid var(--neon); 
+            background: rgba(188, 19, 254, 0.05); transition: 0.3s; overflow: hidden;
+        }
+        .button:hover { background: var(--neon); color: #000; box-shadow: 0 0 20px var(--neon); transform: translateY(-2px); }
+        .button-text { 
+            text-decoration: none; color: inherit; width: 100%; height: 100%; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; 
+        }
+        .desc { font-size: 10px; margin-top: 5px; opacity: 0.7; font-weight: normal; text-align: center; padding: 0 10px; }
+
+        .section-title { width: 85%; margin: 30px 0 15px; border-left: 5px solid var(--cyan); padding-left: 15px; font-size: 22px; color: var(--cyan); text-transform: uppercase; }
+        
+        .page-nav-wrapper { margin-top: 50px; display: flex; gap: 20px; }
+        .page-nav { padding: 15px 40px; border: 2px dashed var(--cyan); color: var(--cyan); text-decoration: none; font-weight: bold; transition: 0.4s; }
         .page-nav:hover { background: var(--cyan); color: #000; box-shadow: 0 0 30px var(--cyan); }
     </style>
 </head>
 <body>
     <header>
-        <h1>VENS_HUB_EVOLUTION</h1>
-        <div style="color: #888; font-size: 12px;">[REPLACING_BUTTONS... SOURCE: V3_REPO]</div>
+        <h1>VENS_HUB_V6: SOUL</h1>
+        <div style="color: #888; font-size: 12px;">[STABLE_BUILD_2026 // UPLINK_ACTIVE]</div>
         <div class="gatekeep-note">btw gatekeep ts pls</div>
     </header>
 
-    <div class="panic-bar" onclick="window.location.replace('https://classroom.google.com')">EMERGENCY CLOAK: PRESS "Q"</div>
-
-    <div class="section-title">CORE BYPASS METHODS</div>
-    <div class="hub-container" id="methodsContainer">
-        <!-- 100+ simulated nodes via JS -->
+    <div class="panic-bar" onclick="window.location.replace('https://classroom.google.com')">
+        EMERGENCY_CLOAK: PRESS "Q" TO PANIC
     </div>
 
-    <a href="page2.html" class="page-nav">GO TO PAGE 2 (MOVIES & ANIME)</a>
+    <div class="section-title">CORE_EXPLOITS & BYPASS</div>
+    <div class="hub-container" id="methodsContainer">
+        <!-- JS generates 50 high-quality nodes here -->
+    </div>
+
+    <div class="page-nav-wrapper">
+        <a href="page2.html" class="page-nav">MEDIA_VAULT (PAGE 2)</a>
+        <a href="page3.html" class="page-nav">GAME_TERMINAL (PAGE 3)</a>
+    </div>
 
     <script>
-        const bypassTypes = [
-            "Kill GoGuardian via Task Manager (Search+Esc)",
-            "Soft-Disable Securly via Bookmarklet Injector",
-            "History Flooding (Classroom Overwrite)",
-            "Tab Cloaking (Icon + Title Swap)",
-            "SSL Certificate Purge (BYOD Only)",
-            "DNS Over HTTPS (Cloudflare 1.1.1.1)",
-            "Developer Console Extension Crash",
-            "Cache-Only Browsing (Google Cache Tunnel)"
+        const soulLinks = [
+            { name: "POINT_BLANK", desc: "Corrupt Securly cookies via Blob:URL", link: "https://github.com" },
+            { name: "INGOGUARDIAN", desc: "Kill GG processes using Search+Esc exploit", link: "https://github.com" },
+            { name: "LATENCY_DNS", desc: "1.1.1.1 Cloudflare Warp (Web Access)", link: "https://one.one.one.one" },
+            { name: "BEYOND_FILTERS", desc: "Advanced iFrame tunneling method", link: "https://github.com" },
+            { name: "CROXY_PROXY", desc: "Reliable 2026 video & web unblocker", link: "https://www.croxyproxy.com" },
+            { name: "BLOCKAWAY", desc: "High-speed encrypted network tunnel", link: "https://www.blockaway.net" },
+            { name: "4EVER_PROXY", desc: "Anonymous browsing with SSL encryption", link: "https://www.4everproxy.com" },
+            { name: "NEBULA_V6", desc: "Ultraviolet-powered stealth mirror", link: "https://nebula.psw.edu.pl" },
+            { name: "INTERSTELLAR", desc: "Low-latency school bypass node", link: "https://interstellar-proxy.io" },
+            { name: "ASTRAL_PROXY", desc: "Stable 2026 unblocker for Chrome", link: "https://astral.v6.rocks" }
         ];
 
         const container = document.getElementById('methodsContainer');
-        for (let i = 1; i <= 100; i++) {
-            const type = bypassTypes[i % bypassTypes.length];
-            const div = document.createElement('div');
-            div.className = 'button';
-            div.innerHTML = `<div class="button-text">METHOD_${i}<span class="desc">${type} // Node: ${i*7}</span></div>`;
-            container.appendChild(div);
+
+        // Generating exactly 50 nodes with "soul"
+        for (let i = 0; i < 50; i++) {
+            // Cycle through real links first, then fill with mirror variations
+            const data = i < soulLinks.length ? soulLinks[i] : { 
+                name: `${soulLinks[i % soulLinks.length].name}_MIRROR_${Math.floor(i/10)}`, 
+                desc: "Secondary High-Speed Node", 
+                link: soulLinks[i % soulLinks.length].link 
+            };
+
+            const nodeHtml = `
+                <div class="button">
+                    <a href="${data.link}" target="_blank" class="button-text">
+                        ${data.name}
+                        <span class="desc">${data.desc}</span>
+                    </a>
+                </div>
+            `;
+            container.innerHTML += nodeHtml;
         }
 
+        // Global Panic Key
         window.addEventListener('keydown', (e) => {
             if (e.key.toLowerCase() === 'q') window.location.replace('https://classroom.google.com');
         });
