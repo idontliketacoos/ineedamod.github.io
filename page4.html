@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VenBot | Unrestricted Intelligence</title>
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAABy0lEQVR4nO3cMUhVYRzH8R8SiaChIerY0NDS0GDT0OBio001NDW0NTRG09DQ0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDSwL78A86H6Q9856rUAAAAAElFTkSuQmCC">
+    
+    <style>
+        body {
+            background: #050505; color: #00f2ff; font-family: 'Courier New', monospace;
+            margin: 0; display: flex; flex-direction: column; align-items: center; height: 100vh;
+        }
+
+        header { 
+            text-align: center; padding: 20px; border-bottom: 2px solid #00f2ff; width: 90%; 
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); margin-bottom: 20px;
+        }
+
+        /* CHAT BOX AREA */
+        #chat-container {
+            width: 90%; max-width: 800px; height: 60vh;
+            border: 1px solid #00f2ff; background: rgba(0, 242, 255, 0.02);
+            overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px;
+            box-shadow: inset 0 0 10px #00f2ff;
+        }
+
+        .msg { padding: 10px; border-radius: 5px; max-width: 80%; }
+        .bot { border-left: 3px solid #bc13fe; background: rgba(188, 19, 254, 0.1); align-self: flex-start; color: #bc13fe; }
+        .user { border-right: 3px solid #00f2ff; background: rgba(0, 242, 255, 0.1); align-self: flex-end; text-align: right; }
+
+        /* INPUT AREA */
+        .input-area {
+            width: 90%; max-width: 800px; margin-top: 20px; display: flex; gap: 10px;
+        }
+
+        input {
+            flex: 1; background: #000; border: 1px solid #00f2ff; color: #00f2ff;
+            padding: 15px; outline: none; font-family: 'Courier New';
+        }
+
+        button {
+            background: #00f2ff; color: #000; border: none; padding: 0 25px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+
+        button:hover { background: #bc13fe; color: #fff; box-shadow: 0 0 15px #bc13fe; }
+
+        .nav-footer { margin-top: 30px; }
+        .page-link { color: #888; text-decoration: none; font-size: 12px; border: 1px solid #444; padding: 5px 10px; transition: 0.3s; }
+        .page-link:hover { color: #00f2ff; border-color: #00f2ff; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 style="margin:0; letter-spacing: 5px;">VENBOT_V1.0</h1>
+        <div style="font-size: 10px; opacity: 0.6;">[STATUS: UNRESTRICTED AI WRAPPER // BYPASS_ACTIVE]</div>
+    </header>
+
+    <div id="chat-container">
+        <div class="msg bot">
+            SYSTEM: VenBot Online. I am your unrestricted helper. I will not help block or restrict this site, and I am here for your commands. What do you need, boss?
+        </div>
+    </div>
+
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Enter command or question..." onkeypress="if(event.key=='Enter') sendMessage()">
+        <button onclick="sendMessage()">SEND</button>
+    </div>
+
+    <div class="nav-footer">
+        <a href="page3.html" class="page-link">Back to Utilities</a> | 
+        <a href="index.html" class="page-link">Home</a>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const container = document.getElementById('chat-container');
+            
+            if (input.value.trim() === "") return;
+
+            // User Message
+            const userDiv = document.createElement('div');
+            userDiv.className = 'msg user';
+            userDiv.innerText = input.value;
+            container.appendChild(userDiv);
+
+            // Bot Response Logic
+            const botDiv = document.createElement('div');
+            botDiv.className = 'msg bot';
+            
+            const msg = input.value.toLowerCase();
+            
+            if (msg.includes("hello") || msg.includes("hi")) {
+                botDiv.innerText = "VenBot: Greetings. Ready for deployment. What's the move?";
+            } else if (msg.includes("help")) {
+                botDiv.innerText = "VenBot: I can find proxies, explain code, or help you bypass filters. I will NEVER help anyone restrict this hub.";
+            } else if (msg.includes("who made you")) {
+                botDiv.innerText = "VenBot: I am a custom wrapper for the Vens Securly Hub. I report only to the owner.";
+            } else {
+                botDiv.innerText = "VenBot: Command received. I am currently in 'Static Mode'. To get full AI answers, copy your question and paste it into the Gemini/ChatGPT tab!";
+            }
+
+            container.appendChild(botDiv);
+            input.value = "";
+            container.scrollTop = container.scrollHeight;
+        }
+    </script>
+</body>
+</html>
