@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vens Hub | Overworld Plains</title>
+    <title>Vens Hub | Overworld</title>
     <style>
         :root { 
             --grass: #5da832; 
@@ -37,14 +37,16 @@
             letter-spacing: 2px; text-shadow: 3px 3px 0px #3d2b1f;
         }
 
-        .gatekeep-note { color: #ffeb3b; font-size: 12px; margin-top: 5px; font-weight: bold; }
+        .gatekeep-note { color: #ffeb3b; font-size: 12px; margin-top: 5px; font-weight: bold; font-style: italic; }
 
         .panic-bar { 
             background: #ff4444; border: 4px solid #880000;
             color: white; font-weight: bold; font-size: 14px;
             margin-bottom: 30px; padding: 12px; width: 80%;
             text-align: center; cursor: pointer; box-shadow: 0 5px 0 #880000;
+            transition: 0.2s;
         }
+        .panic-bar:hover { background: #ff5555; }
         .panic-bar:active { transform: translateY(4px); box-shadow: 0 1px 0 #880000; }
         
         .section-title { 
@@ -62,15 +64,16 @@
             background: #bdbdbd; border: 4px solid #424242;
             height: 110px; transition: 0.2s; position: relative;
             box-shadow: 0 6px 0 #424242;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-decoration: none;
         }
         
         .button:hover { background: #e0e0e0; transform: translateY(-2px); box-shadow: 0 8px 0 #424242; }
         .button:active { transform: translateY(4px); box-shadow: 0 2px 0 #424242; }
 
         .button-text { 
-            text-decoration: none; color: #212121; width: 100%; height: 100%; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            font-weight: bold; text-align: center;
+            color: #212121; font-weight: bold; text-align: center;
+            display: flex; flex-direction: column;
         }
 
         .desc { font-size: 11px; color: #616161; margin-top: 8px; font-weight: normal; }
@@ -79,17 +82,14 @@
         .page-nav { 
             background: var(--wood); border: 4px solid #5d4037;
             padding: 15px 40px; color: white; text-decoration: none; font-weight: bold;
-            box-shadow: 0 6px 0 #5d4037;
+            box-shadow: 0 6px 0 #5d4037; transition: 0.2s;
         }
-        .page-nav:hover { background: #d7ccc8; color: #5d4037; }
-
-        /* Pixel Clouds decoration */
-        .cloud { position: absolute; background: white; width: 100px; height: 40px; border-radius: 0; opacity: 0.8; z-index: -1; }
+        .page-nav:hover { background: #d7ccc8; color: #5d4037; transform: translateY(-2px); }
     </style>
 </head>
 <body>
     <header>
-        <h1>VENS_HUB: OVERWORLD</h1>
+        <h1>VENS_HUB_V6: SOUL</h1>
         <div class="gatekeep-note">btw gatekeep ts pls</div>
     </header>
 
@@ -97,52 +97,36 @@
         [!] EMERGENCY ESCAPE: PRESS "Q" [!]
     </div>
 
-    <div class="section-title">LOOT_TABLE: BYPASSES</div>
+    <div class="section-title">LOOT_TABLE: 2026_PROXIES</div>
     
-    <div class="hub-container" id="methodsContainer">
-        <!-- JS generates 50 nodes -->
+    <div class="hub-container">
+        <!-- TIKTOK SCRAPED PROXIES -->
+        <a href="https://universal.v6.rocks" target="_blank" class="button">
+            <div class="button-text">UNIVERSAL_PROXY<span class="desc">High-speed stealth unblocker</span></div>
+        </a>
+        <a href="https://void.v6.rocks" target="_blank" class="button">
+            <div class="button-text">VOID_NETWORK<span class="desc">2026 ultra-stable node</span></a>
+        </a>
+        <a href="https://nebula.psw.edu.pl" target="_blank" class="button">
+            <div class="button-text">NEBULA_V6<span class="desc">Ultraviolet-powered mirror</span></div>
+        </a>
+        <a href="https://interstellar-proxy.io" target="_blank" class="button">
+            <div class="button-text">INTERSTELLAR<span class="desc">Low-latency school bypass</span></div>
+        </a>
     </div>
 
     <div class="page-nav-wrapper">
         <a href="page2.html" class="page-nav">MEDIA_CHEST</a>
-        <a href="page3.html" class="page-nav">MINECRAFT_GAMES</a>
+        <a href="page3.html" class="page-nav">GAME_TERMINAL</a>
+        <a href="page4.html" class="page-nav">VENBOT_AI</a>
     </div>
 
     <script>
-        const soulLinks = [
-            { name: "POINT_BLANK", desc: "Corrupt Securly via Blob:URL", link: "https://github.com" },
-            { name: "INGOGUARDIAN", desc: "Kill GG processes", link: "https://github.com" },
-            { name: "LATENCY_DNS", desc: "Cloudflare Warp Bypass", link: "https://one.one.one.one" },
-            { name: "CROXY_PROXY", desc: "Video & Web Unblocker", link: "https://www.croxyproxy.com" },
-            { name: "BLOCKAWAY", desc: "Encrypted Network Tunnel", link: "https://www.blockaway.net" },
-            { name: "NEBULA_V6", desc: "Ultraviolet Mirror", link: "https://nebula.psw.edu.pl" },
-            { name: "INTERSTELLAR", desc: "Low-latency Node", link: "https://interstellar-proxy.io" },
-            { name: "ASTRAL_PROXY", desc: "Stable 2026 Unblocker", link: "https://astral.v6.rocks" }
-        ];
-
-        const container = document.getElementById('methodsContainer');
-
-        for (let i = 0; i < 50; i++) {
-            const data = i < soulLinks.length ? soulLinks[i] : { 
-                name: `${soulLinks[i % soulLinks.length].name}_v${i}`, 
-                desc: "Extra Loot Node", 
-                link: soulLinks[i % soulLinks.length].link 
-            };
-
-            const nodeHtml = `
-                <div class="button">
-                    <a href="${data.link}" target="_blank" class="button-text">
-                        ${data.name}
-                        <span class="desc">${data.desc}</span>
-                    </a>
-                </div>
-            `;
-            container.innerHTML += nodeHtml;
-        }
-
+        // Global Panic Key
         window.addEventListener('keydown', (e) => {
             if (e.key.toLowerCase() === 'q') window.location.replace('https://classroom.google.com');
         });
     </script>
 </body>
-</html>
+        </html>
+        
