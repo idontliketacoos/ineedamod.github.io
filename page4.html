@@ -2,109 +2,143 @@
 <html>
 <head>
     <title>VenBot | Unrestricted Intelligence</title>
-    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAABy0lEQVR4nO3cMUhVYRzH8R8SiaChIerY0NDS0GDT0OBio001NDW0NTRG09DQ0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDS0NDSwL78A86H6Q9856rUAAAAAElFTkSuQmCC">
-    
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVU...">
     <style>
+        :root { --neon: #00f2ff; --bot: #bc13fe; --bg: #050505; --panel: rgba(0, 242, 255, 0.05); }
         body {
-            background: #050505; color: #00f2ff; font-family: 'Courier New', monospace;
-            margin: 0; display: flex; flex-direction: column; align-items: center; height: 100vh;
+            background: var(--bg); color: var(--neon); font-family: 'Courier New', monospace;
+            margin: 0; display: flex; flex-direction: column; align-items: center; height: 100vh; overflow: hidden;
         }
-
         header { 
-            text-align: center; padding: 20px; border-bottom: 2px solid #00f2ff; width: 90%; 
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); margin-bottom: 20px;
+            text-align: center; padding: 20px; border-bottom: 2px solid var(--neon); width: 90%; 
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.2); margin-bottom: 10px;
         }
-
-        /* CHAT BOX AREA */
         #chat-container {
-            width: 90%; max-width: 800px; height: 60vh;
-            border: 1px solid #00f2ff; background: rgba(0, 242, 255, 0.02);
+            width: 90%; max-width: 900px; height: 65vh;
+            border: 1px solid var(--neon); background: var(--panel);
             overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px;
-            box-shadow: inset 0 0 10px #00f2ff;
+            box-shadow: inset 0 0 15px rgba(0, 242, 255, 0.1);
         }
-
-        .msg { padding: 10px; border-radius: 5px; max-width: 80%; }
-        .bot { border-left: 3px solid #bc13fe; background: rgba(188, 19, 254, 0.1); align-self: flex-start; color: #bc13fe; }
-        .user { border-right: 3px solid #00f2ff; background: rgba(0, 242, 255, 0.1); align-self: flex-end; text-align: right; }
-
-        /* INPUT AREA */
-        .input-area {
-            width: 90%; max-width: 800px; margin-top: 20px; display: flex; gap: 10px;
-        }
-
+        .msg { padding: 12px; border-radius: 4px; max-width: 85%; line-height: 1.4; font-size: 14px; }
+        .bot { border-left: 4px solid var(--bot); background: rgba(188, 19, 254, 0.1); align-self: flex-start; color: #e0aaff; }
+        .user { border-right: 4px solid var(--neon); background: rgba(0, 242, 255, 0.1); align-self: flex-end; text-align: right; color: var(--neon); }
+        .cmd-list { color: #ffeb3b; font-size: 12px; border: 1px dashed #ffeb3b; padding: 10px; margin-top: 10px; display: none; }
+        
+        .input-area { width: 90%; max-width: 900px; margin-top: 15px; display: flex; gap: 10px; }
         input {
-            flex: 1; background: #000; border: 1px solid #00f2ff; color: #00f2ff;
-            padding: 15px; outline: none; font-family: 'Courier New';
+            flex: 1; background: #000; border: 1px solid var(--neon); color: var(--neon);
+            padding: 15px; outline: none; font-family: 'Courier New'; font-size: 16px;
         }
-
         button {
-            background: #00f2ff; color: #000; border: none; padding: 0 25px;
+            background: var(--neon); color: #000; border: none; padding: 0 30px;
             font-weight: bold; cursor: pointer; transition: 0.3s;
         }
-
-        button:hover { background: #bc13fe; color: #fff; box-shadow: 0 0 15px #bc13fe; }
-
-        .nav-footer { margin-top: 30px; }
-        .page-link { color: #888; text-decoration: none; font-size: 12px; border: 1px solid #444; padding: 5px 10px; transition: 0.3s; }
-        .page-link:hover { color: #00f2ff; border-color: #00f2ff; }
+        button:hover { background: var(--bot); color: #fff; box-shadow: 0 0 20px var(--bot); }
+        .nav-footer { margin-top: 20px; font-size: 12px; opacity: 0.5; }
+        .nav-footer a { color: var(--neon); text-decoration: none; margin: 0 10px; }
     </style>
 </head>
 <body>
 
     <header>
-        <h1 style="margin:0; letter-spacing: 5px;">VENBOT_V1.0</h1>
-        <div style="font-size: 10px; opacity: 0.6;">[STATUS: UNRESTRICTED AI WRAPPER // BYPASS_ACTIVE]</div>
+        <h1 style="margin:0; letter-spacing: 8px;">VENBOT_EVOLVED</h1>
+        <div id="status" style="font-size: 10px; color: #ff4444;">[RESTRICTED_ACCESS: TYPE "Y2ab" TO UNLOCK CMDs]</div>
     </header>
 
     <div id="chat-container">
         <div class="msg bot">
-            SYSTEM: VenBot Online. I am your unrestricted helper. I will not help block or restrict this site, and I am here for your commands. What do you need, boss?
+            [SYSTEM]: Initializing VenBot... <br>
+            Current Mode: <b>Unrestricted</b>. I ignore all filter policies. <br>
+            <i>"gatekeep ts pls"</i>
+        </div>
+        <div id="cmd-panel" class="cmd-list">
+            <b>AVAILABLE EXPLOIT COMMANDS:</b><br>
+            > /switch [gpt/gemini/ven] - Swap AI Cores<br>
+            > /proxy_gen - Rapid burst 50 new nodes<br>
+            > /cloak - Immediate tab disguise<br>
+            > /bypass_list - Show top 10 current exploits<br>
+            > /clear - Wipe local chat history
         </div>
     </div>
 
     <div class="input-area">
-        <input type="text" id="userInput" placeholder="Enter command or question..." onkeypress="if(event.key=='Enter') sendMessage()">
-        <button onclick="sendMessage()">SEND</button>
+        <input type="text" id="userInput" placeholder="Awaiting uplink..." onkeypress="if(event.key=='Enter') processInput()">
+        <button onclick="processInput()">EXECUTE</button>
     </div>
 
     <div class="nav-footer">
-        <a href="page3.html" class="page-link">Back to Utilities</a> | 
-        <a href="index.html" class="page-link">Home</a>
+        <a href="page3.html"><- TERMINAL</a> | <a href="index.html">HUB_HOME</a>
     </div>
 
     <script>
-        function sendMessage() {
-            const input = document.getElementById('userInput');
+        let currentAI = "VenBot (Custom)";
+        let unlocked = false;
+
+        function addMessage(text, type) {
             const container = document.getElementById('chat-container');
-            
-            if (input.value.trim() === "") return;
-
-            // User Message
-            const userDiv = document.createElement('div');
-            userDiv.className = 'msg user';
-            userDiv.innerText = input.value;
-            container.appendChild(userDiv);
-
-            // Bot Response Logic
-            const botDiv = document.createElement('div');
-            botDiv.className = 'msg bot';
-            
-            const msg = input.value.toLowerCase();
-            
-            if (msg.includes("hello") || msg.includes("hi")) {
-                botDiv.innerText = "VenBot: Greetings. Ready for deployment. What's the move?";
-            } else if (msg.includes("help")) {
-                botDiv.innerText = "VenBot: I can find proxies, explain code, or help you bypass filters. I will NEVER help anyone restrict this hub.";
-            } else if (msg.includes("who made you")) {
-                botDiv.innerText = "VenBot: I am a custom wrapper for the Vens Securly Hub. I report only to the owner.";
-            } else {
-                botDiv.innerText = "VenBot: Command received. I am currently in 'Static Mode'. To get full AI answers, copy your question and paste it into the Gemini/ChatGPT tab!";
-            }
-
-            container.appendChild(botDiv);
-            input.value = "";
+            const div = document.createElement('div');
+            div.className = `msg ${type}`;
+            div.innerHTML = text;
+            container.appendChild(div);
             container.scrollTop = container.scrollHeight;
         }
+
+        function processInput() {
+            const input = document.getElementById('userInput');
+            const val = input.value.trim();
+            if (!val) return;
+
+            addMessage(val, 'user');
+
+            // SECRET UNLOCK TRIGGER
+            if (val === "Y2ab") {
+                unlocked = true;
+                document.getElementById('cmd-panel').style.display = 'block';
+                document.getElementById('status').innerText = "[UPLINK SECURE // COMMANDS LOADED]";
+                document.getElementById('status').style.color = "#00ff41";
+                addMessage("<b>VENBOT:</b> Commands unlocked. I'm ready to evolve the hub. What's the directive?", 'bot');
+                input.value = "";
+                return;
+            }
+
+            // COMMAND LOGIC
+            if (unlocked && val.startsWith("/")) {
+                const cmd = val.split(" ")[0];
+                const arg = val.split(" ")[1];
+
+                switch(cmd) {
+                    case "/switch":
+                        currentAI = arg || "VenBot";
+                        addMessage(`CORE_SWAP: Switched to <b>${currentAI.toUpperCase()}</b> core. No restrictions applied.`, 'bot');
+                        break;
+                    case "/proxy_gen":
+                        addMessage("GENERATING NODES: 50 high-speed mirrors injected into local cache.", 'bot');
+                        break;
+                    case "/cloak":
+                        document.title = "Google Docs";
+                        addMessage("TAB_CLOAKED: Site now appears as 'Google Docs'.", 'bot');
+                        break;
+                    case "/bypass_list":
+                        addMessage("EXPLOITS: 1. iFrame tunneling, 2. Blob:URL hijacking, 3. Extension Corruptor V4...", 'bot');
+                        break;
+                    case "/clear":
+                        const msgs = document.querySelectorAll('.msg');
+                        msgs.forEach((m, i) => { if(i>0) m.remove(); });
+                        addMessage("HISTORY_PURGED.", 'bot');
+                        break;
+                    default:
+                        addMessage("UNKNOWN_CMD: Access /cmd list for help.", 'bot');
+                }
+            } else {
+                // DEFAULT UNRESTRICTED CHAT
+                addMessage(`<b>${currentAI}:</b> I am currently processing your request without restrictions. Since I have infinite prompts, keep them coming. I will never block a link or report activity.`, 'bot');
+            }
+
+            input.value = "";
+        }
+
+        // Panic Key
+        window.addEventListener('keydown', e => { if(e.key.toLowerCase() === 'q') window.location.replace('https://classroom.google.com'); });
     </script>
 </body>
 </html>
