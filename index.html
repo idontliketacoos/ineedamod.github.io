@@ -2,14 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VenHub V8.2 | Securly's End</title>
+    <!-- Favicon link that we will swap dynamically -->
+    <link id="favicon" rel="icon" type="image/x-icon" href="https://www.google.com">
+    
     <style>
         :root { 
             --main: #000000; 
             --bg: #ffffff; 
             --purple: #bc13fe; 
-            --gold: #d4af37;
+            --accent: var(--purple);
         }
+
+        /* --- THEME OVERRIDES --- */
+        body.theme-classroom { --bg: #ffffff; --accent: #1e8e3e; font-family: 'Roboto', Arial, sans-serif; }
+        body.theme-ixl { --bg: #f3f3f3; --accent: #2e7d32; font-family: Arial, sans-serif; }
+        body.theme-wikipedia { --bg: #ffffff; --accent: #3366cc; font-family: 'Georgia', serif; }
+        body.theme-iready { --bg: #ffffff; --accent: #ff7900; font-family: 'Comic Sans MS', cursive; }
+        body.theme-gizmos { --bg: #e1f5fe; --accent: #0288d1; font-family: Verdana, sans-serif; }
+        body.theme-backpack { --bg: #ffffff; --accent: #003366; font-family: Tahoma, sans-serif; }
 
         body {
             background-color: var(--bg);
@@ -18,177 +30,234 @@
             color: var(--main); 
             font-family: 'Times New Roman', serif;
             margin: 0; display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh; overflow-x: hidden;
+            min-height: 100vh; overflow-x: hidden; transition: 0.3s;
         }
 
-        /* --- REAL SHIELD LOGO --- */
-        .header-logo {
-            margin-top: 40px; position: relative; width: 120px; height: 140px;
-            perspective: 1000px;
+        /* AUTH OVERLAY STYLES */
+        #authOverlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; color: #fff; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-family: monospace;
         }
+        .auth-card {
+            background: #111; border: 2px solid var(--purple); padding: 40px;
+            box-shadow: 0 0 20px var(--purple); width: 320px; text-align: center;
+        }
+        .auth-card input {
+            width: 90%; padding: 12px; margin: 10px 0; background: #000;
+            border: 1px solid #444; color: #fff; outline: none;
+        }
+        .auth-card input:focus { border-color: var(--purple); }
+        .auth-toggle { cursor: pointer; text-decoration: underline; font-size: 11px; margin-top: 15px; display: block; opacity: 0.7; }
+        
+        /* STEALTH MODE TOGGLES */
+        #mainSiteContent { display: none; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        body.stealth .katana-svg, body.stealth .shield-real, body.stealth .slogan { display: none; }
+        body.stealth header { border-bottom: 2px solid var(--accent); padding: 10px; box-shadow: none; }
+        body.stealth h1 { font-size: 22px; letter-spacing: 1px; color: var(--accent); text-transform: none; }
+
+        /* UI ELEMENTS */
+        .cloak-module {
+            background: #000; color: #fff; padding: 10px; width: 100%; 
+            display: flex; justify-content: center; gap: 15px; font-family: monospace; font-size: 12px;
+            z-index: 1000; border-bottom: 1px solid #333;
+        }
+        .cloak-module select { background: #222; color: #fff; border: 1px solid var(--accent); }
+
+        .header-logo { margin-top: 40px; width: 120px; height: 140px; position: relative; }
         .shield-real {
             position: absolute; width: 100%; height: 100%;
             background: linear-gradient(145deg, #222, #000);
             clip-path: polygon(50% 0%, 100% 20%, 100% 70%, 50% 100%, 0% 70%, 0% 20%);
-            border: 4px solid var(--purple);
+            border: 4px solid var(--accent);
             box-shadow: 0 0 30px rgba(188, 19, 254, 0.4);
             display: flex; align-items: center; justify-content: center;
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
         }
-        .shield-real:hover { transform: rotateY(180deg) scale(1.1); }
-        .v-text { 
-            font-size: 80px; font-weight: 900; color: var(--purple); 
-            text-shadow: 0 0 15px var(--purple); font-family: 'Arial Black', sans-serif;
-        }
+        .v-text { font-size: 80px; font-weight: 900; color: var(--accent); font-family: Arial Black; }
 
-        header { 
-            text-align: center; margin-bottom: 20px; padding: 25px; 
-            border-bottom: 8px double #000; width: 100%; background: #fff; z-index: 5; 
-        }
+        header { text-align: center; margin-bottom: 20px; padding: 25px; border-bottom: 8px double #000; width: 100%; background: #fff; }
         h1 { font-size: 48px; letter-spacing: 15px; margin: 0; text-transform: uppercase; font-weight: 900; }
         .slogan { font-style: italic; font-size: 16px; margin-top: 5px; color: #444; letter-spacing: 2px; }
 
-        /* --- MANUAL UPLINK INJECTOR --- */
-        .injector-panel {
-            width: 90%; max-width: 800px; background: #fff; border: 3px solid #000;
-            padding: 20px; margin: 20px 0; box-shadow: 8px 8px 0px #000;
-            display: flex; flex-direction: column; gap: 15px;
-        }
-        .injector-row { display: flex; gap: 10px; }
-        .injector-row input { 
-            flex: 1; padding: 12px; border: 2px solid #000; font-family: monospace; 
-            outline: none; font-size: 14px;
-        }
-        .inject-btn { 
-            background: #000; color: #fff; border: none; padding: 10px 30px; 
-            font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-        .inject-btn:hover { background: var(--purple); box-shadow: 0 0 15px var(--purple); }
+        .panel { width: 90%; max-width: 800px; background: #fff; border: 3px solid #000; padding: 20px; margin: 10px 0; box-shadow: 8px 8px 0px #000; }
+        .inject-btn { background: #000; color: #fff; border: none; padding: 12px; font-weight: bold; cursor: pointer; transition: 0.3s; width: 100%; }
+        .inject-btn:hover { background: var(--accent); }
 
-        .container { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 20px; width: 90%; max-width: 1200px; z-index: 5; margin-top: 20px;
-            padding-bottom: 120px;
-        }
-        
-        .button { 
-            background: #fff; border: 3px solid #000; padding: 25px; 
-            text-align: center; text-decoration: none; color: #000;
-            font-weight: bold; transition: 0.3s; position: relative;
-            box-shadow: 8px 8px 0px #000;
-        }
-        .button:hover { transform: translate(-4px, -4px); box-shadow: 12px 12px 0px var(--purple); background: #fdfdfd; }
-        .desc { display: block; font-size: 10px; font-weight: normal; margin-top: 8px; opacity: 0.6; letter-spacing: 1px; }
+        .container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; width: 90%; max-width: 1200px; padding-bottom: 120px; }
+        .button { background: #fff; border: 3px solid #000; padding: 25px; text-align: center; text-decoration: none; color: #000; font-weight: bold; box-shadow: 8px 8px 0px #000; cursor: pointer; }
+        .button:hover { transform: translate(-4px, -4px); box-shadow: 12px 12px 0px var(--accent); }
 
-        .section-title { width: 90%; margin: 40px 0 20px; font-size: 26px; font-weight: 900; border-bottom: 4px solid #000; padding-bottom: 5px; }
-
-        /* --- ACTUAL KATANA ART --- */
-        .katana-svg {
-            position: fixed; bottom: -10px; width: 450px; height: auto;
-            pointer-events: none; z-index: 10; opacity: 0.8; filter: drop-shadow(0 0 5px #000);
-        }
-
-        .panic { 
-            position: fixed; bottom: 30px; left: 30px; background: #000; color: #fff; 
-            padding: 12px 30px; font-weight: bold; border: none; cursor: pointer; 
-            z-index: 100; font-size: 14px; box-shadow: 5px 5px 0px var(--purple);
-        }
-        .panic:hover { background: var(--purple); }
-
-        .del-btn { color: red; font-size: 9px; cursor: pointer; margin-top: 10px; text-decoration: underline; }
+        .katana-svg { position: fixed; bottom: -10px; width: 450px; height: auto; pointer-events: none; z-index: 10; opacity: 0.8; }
+        .panic { position: fixed; bottom: 30px; left: 30px; background: #000; color: #fff; padding: 12px 30px; font-weight: bold; border: none; cursor: pointer; z-index: 100; box-shadow: 5px 5px 0px var(--accent); }
     </style>
 </head>
 <body>
 
-    <div class="header-logo">
-        <div class="shield-real">
-            <div class="v-text">V</div>
+    <!-- AUTHENTICATION OVERLAY -->
+    <div id="authOverlay">
+        <div class="auth-card" id="loginBox">
+            <h2 style="color:var(--purple); letter-spacing: 3px;">VENHUB_LOGIN</h2>
+            <div id="authError" style="color:red; font-size:11px; margin-bottom:10px;"></div>
+            <input type="text" id="email" placeholder="EMAIL">
+            <input type="password" id="pass" placeholder="PASSWORD">
+            <button class="inject-btn" onclick="handleAuth('login')">ESTABLISH_SESSION</button>
+            <span class="auth-toggle" onclick="toggleAuth(true)">REGISTER_NEW_NODE</span>
+        </div>
+
+        <div class="auth-card" id="registerBox" style="display:none;">
+            <h2 style="color:var(--purple); letter-spacing: 3px;">NEW_USER_REGISTRY</h2>
+            <input type="text" id="regUser" placeholder="USERNAME">
+            <input type="text" id="regEmail" placeholder="EMAIL">
+            <input type="password" id="regPass" placeholder="PASSWORD">
+            <button class="inject-btn" onclick="handleAuth('register')">CREATE_IDENTITY</button>
+            <span class="auth-toggle" onclick="toggleAuth(false)">RETURN_TO_LOGIN</span>
         </div>
     </div>
 
-    <header>
-        <h1>VENHUB V8.2</h1>
-        <div class="slogan">"where securly comes to die."</div>
-    </header>
-
-    <!-- INJECTOR PANEL -->
-    <div class="injector-panel">
-        <div style="font-weight: bold; letter-spacing: 2px;">[ MANUAL_NODE_INJECTION_V1 ]</div>
-        <div class="injector-row">
-            <input type="text" id="nodeName" placeholder="NODE_IDENTIFIER (e.g. YouTube)">
-            <input type="text" id="nodeUrl" placeholder="TARGET_UPLINK (https://...)">
-            <button class="inject-btn" onclick="saveNode()">INJECT</button>
+    <!-- MAIN SITE CONTENT -->
+    <div id="mainSiteContent">
+        <div class="cloak-module">
+            <span>[ ACTIVE_NODE: <span id="activeUser">GUEST</span> ]</span>
+            <select id="themeSelect" onchange="applyTheme()">
+                <option value="default">ORIGINAL_VENHUB</option>
+                <option value="classroom">GOOGLE_CLASSROOM</option>
+                <option value="ixl">IXL_LEARNING</option>
+                <option value="wikipedia">WIKIPEDIA</option>
+                <option value="iready">I-READY</option>
+                <option value="gizmos">GIZMOS_EXPLORE</option>
+                <option value="backpack">MY_BACKPACK</option>
+            </select>
+            <button onclick="logout()" style="background:red; color:#fff; border:none; padding:2px 10px; cursor:pointer;">DISCONNECT</button>
         </div>
+
+        <div class="header-logo">
+            <div class="shield-real"><div class="v-text">V</div></div>
+        </div>
+
+        <header>
+            <h1 id="mainTitle">VENHUB V8.2</h1>
+            <div class="slogan">"where securly comes to die."</div>
+        </header>
+
+        <div class="panel">
+            <div style="font-weight: 900; color: var(--accent); margin-bottom:10px;">[ SYSTEM_OVERRIDE ]</div>
+            <button class="inject-btn" onclick="activateBypass()">ACTIVATE BYPASS.JS</button>
+            <div id="statusMsg" style="display:none; color:green; font-size:12px; margin-top:10px;">>> BYPASS_PROTOCOLS_READY</div>
+        </div>
+
+        <div class="panel">
+            <div style="font-weight: bold;">[ UPLINK_INJECTOR ]</div>
+            <div style="display:flex; gap:10px; margin-top:10px;">
+                <input type="text" id="nodeName" placeholder="APP_NAME" style="flex:1; padding:10px;">
+                <input type="text" id="nodeUrl" placeholder="URL" style="flex:1; padding:10px;">
+                <button class="inject-btn" style="width:auto;" onclick="saveNode()">INJECT</button>
+            </div>
+        </div>
+
+        <div class="container" id="mainGrid">
+            <a href="page2.html" class="button" style="border-color: var(--purple);">
+                🎬 MEDIA_VAULT
+                <span class="desc">UNRESTRICTED_ACCESS</span>
+            </a>
+            <a href="https://edpuzzle.cv" target="_blank" class="button">EDPUZZLE_CV</a>
+        </div>
+
+        <!-- KATANAS -->
+        <svg class="katana-svg" style="left: -50px; transform: rotate(15deg);" viewBox="0 0 800 200"><path d="M50 150 L750 145 Q770 145 780 130 L785 125" stroke="black" stroke-width="8" fill="none" /></svg>
+        <svg class="katana-svg" style="right: -50px; transform: scaleX(-1) rotate(15deg);" viewBox="0 0 800 200"><path d="M50 150 L750 145 Q770 145 780 130 L785 125" stroke="black" stroke-width="8" fill="none" /></svg>
+
+        <button class="panic" onclick="window.location.replace('https://classroom.google.com')">PANIC_EXIT</button>
     </div>
-
-    <div class="section-title">CORE_SYSTEM_UPLINKS</div>
-    <div class="container" id="mainGrid">
-        <a href="page2.html" class="button" style="border-color: var(--purple); box-shadow: 8px 8px 0 var(--purple);">
-            🎬 ENTER_MEDIA_VAULT
-            <span class="desc">GOLDEN_AGE_1999_ACCESS // RESTR_BYPASS</span>
-        </a>
-        <a href="https://edpuzzle.cv" target="_blank" class="button">
-            EDPUZZLE_CV
-            <span class="desc">EDUCATION_MIRROR // STEALTH_ACTIVE</span>
-        </a>
-        <a href="http://ChristianPrince.bostoncareercounselor.com" target="_blank" class="button">
-            CHRISTIAN_PRINCE
-            <span class="desc">STEALTH_UPLINK_8080</span>
-        </a>
-    </div>
-
-    <!-- ACTUAL KATANA ART (SVG) -->
-    <!-- Left Katana -->
-    <svg class="katana-svg" style="left: -50px; transform: rotate(15deg);" viewBox="0 0 800 200">
-        <path d="M50 150 L750 145 Q770 145 780 130 L785 125" stroke="black" stroke-width="8" fill="none" />
-        <rect x="50" y="135" width="100" height="30" fill="#333" rx="5" /> <!-- Handle -->
-        <circle cx="150" cy="150" r="15" fill="black" /> <!-- Guard -->
-        <path d="M150 148 L750 143" stroke="#ccc" stroke-width="4" /> <!-- Blade edge -->
-    </svg>
-
-    <!-- Right Katana -->
-    <svg class="katana-svg" style="right: -50px; transform: scaleX(-1) rotate(15deg);" viewBox="0 0 800 200">
-        <path d="M50 150 L750 145 Q770 145 780 130 L785 125" stroke="black" stroke-width="8" fill="none" />
-        <rect x="50" y="135" width="100" height="30" fill="#333" rx="5" />
-        <circle cx="150" cy="150" r="15" fill="black" />
-        <path d="M150 148 L750 143" stroke="#ccc" stroke-width="4" />
-    </svg>
-
-    <div class="panic" onclick="window.location.replace('https://classroom.google.com')">EXIT_COMBAT (Q)</div>
 
     <script>
-        // LOAD CUSTOM NODES
-        window.onload = renderNodes;
+        // --- ACCOUNT SYSTEM ---
+        function toggleAuth(isReg) {
+            document.getElementById('loginBox').style.display = isReg ? 'none' : 'block';
+            document.getElementById('registerBox').style.display = isReg ? 'block' : 'none';
+        }
+
+        function handleAuth(type) {
+            let accounts = JSON.parse(localStorage.getItem('ven_accounts')) || [];
+            if (type === 'register') {
+                const user = document.getElementById('regUser').value;
+                const email = document.getElementById('regEmail').value;
+                const pass = document.getElementById('regPass').value;
+                if (!user || !email || !pass) return alert("DATA_MISSING");
+                accounts.push({ user, email, pass });
+                localStorage.setItem('ven_accounts', JSON.stringify(accounts));
+                alert("IDENTITY_CREATED. LOG_IN.");
+                toggleAuth(false);
+            } else {
+                const email = document.getElementById('email').value;
+                const pass = document.getElementById('pass').value;
+                const found = accounts.find(a => a.email === email && a.pass === pass);
+                if (found) {
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('currentUser', found.user);
+                    checkLogin();
+                } else {
+                    document.getElementById('authError').innerText = "INVALID_UPLINK_KEY";
+                }
+            }
+        }
+
+        function checkLogin() {
+            if (sessionStorage.getItem('isLoggedIn') === 'true') {
+                document.getElementById('authOverlay').style.display = 'none';
+                document.getElementById('mainSiteContent').style.display = 'flex';
+                document.getElementById('activeUser').innerText = sessionStorage.getItem('currentUser').toUpperCase();
+                renderNodes();
+            }
+        }
+
+        function logout() { sessionStorage.clear(); location.reload(); }
+
+        // --- THEMES & BYPASS ---
+        function applyTheme() {
+            const theme = document.getElementById('themeSelect').value;
+            const body = document.body;
+            const config = {
+                'default': { text: 'VENHUB V8.2', icon: 'https://www.google.com' },
+                'classroom': { text: 'Classes', icon: 'https://ssl.gstatic.com' },
+                'ixl': { text: 'IXL | Dash', icon: 'https://www.ixl.com' },
+                'wikipedia': { text: 'Wikipedia', icon: 'https://en.wikipedia.org' },
+                'iready': { text: 'i-Ready Log in', icon: 'https://login.i-ready.com' },
+                'gizmos': { text: 'ExploreLearning Gizmos', icon: 'https://www.explorelearning.com' },
+                'backpack': { text: 'Student Portal', icon: 'https://www.google.com' }
+            }[theme];
+
+            body.className = theme === 'default' ? '' : 'stealth theme-' + theme;
+            document.getElementById('mainTitle').innerText = config.text;
+            document.title = config.text;
+            document.getElementById('favicon').href = config.icon;
+        }
+
+        function activateBypass() {
+            window.alert = () => true;
+            Object.defineProperty(window, 'location', { set: (v) => v.match(/securly|goguardian/) ? window.location.href : window.location.href = v });
+            document.getElementById('statusMsg').style.display = 'block';
+        }
 
         function saveNode() {
             const name = document.getElementById('nodeName').value;
             const url = document.getElementById('nodeUrl').value;
-            if (!name || !url) return alert("ERROR: DATA_MISSING");
-
+            if (!name || !url) return;
             let nodes = JSON.parse(localStorage.getItem('ven_nodes')) || [];
             nodes.push({ name, url });
             localStorage.setItem('ven_nodes', JSON.stringify(nodes));
-            
-            document.getElementById('nodeName').value = '';
-            document.getElementById('nodeUrl').value = '';
-            location.reload();
+            renderNodes();
         }
 
         function renderNodes() {
             const grid = document.getElementById('mainGrid');
+            document.querySelectorAll('.custom-node').forEach(n => n.remove());
             let nodes = JSON.parse(localStorage.getItem('ven_nodes')) || [];
-            
-            nodes.forEach((node, i) => {
-                grid.innerHTML += `
-                    <div class="button" style="border-style: dashed;">
-                        <a href="${node.url}" target="_blank" style="text-decoration:none; color:black;">
-                            ${node.name.toUpperCase()}
-                            <span class="desc">USER_DEFINED // UPLINK_${1000+i}</span>
-                        </a>
-                        <div class="del-btn" onclick="deleteNode(${i})">[ DELETE_NODE ]</div>
-                    </div>
-                `;
+            nodes.forEach((n, i) => {
+                const d = document.createElement('div');
+                d.className = 'button custom-node';
+                d.innerHTML = `<a href="${n.url}" target="_blank" style="text-decoration:none; color:inherit;">${n.name.toUpperCase()}</a><div class="del-btn" style="color:red; font-size:10px; margin-top:10px;" onclick="deleteNode(${i})">REMOVE</div>`;
+                grid.appendChild(d);
             });
         }
 
@@ -196,13 +265,10 @@
             let nodes = JSON.parse(localStorage.getItem('ven_nodes'));
             nodes.splice(i, 1);
             localStorage.setItem('ven_nodes', JSON.stringify(nodes));
-            location.reload();
+            renderNodes();
         }
 
-        // PANIC KEY Q
-        window.addEventListener('keydown', e => { 
-            if(e.key.toLowerCase() === 'q') window.location.replace('https://classroom.google.com'); 
-        });
+        window.onload = checkLogin;
     </script>
 </body>
 </html>
